@@ -11,12 +11,18 @@ ActiveAdmin.register Order do
   index do
     id_column
     column :user
-    column :status do |o|
-      status_tag o.status, class: o.status
+    column :status do |order|
+      status_tag order.status, class: order.status
     end
-    column :subtotal { |o| number_to_currency(o.subtotal) }
-    column :tax_amount { |o| number_to_currency(o.tax_amount) }
-    column :total { |o| number_to_currency(o.total) }
+    column :subtotal do |order|
+      number_to_currency(order.subtotal)
+    end
+    column :tax_amount do |order|
+      number_to_currency(order.tax_amount)
+    end
+    column :total do |order|
+      number_to_currency(order.total)
+    end
     column :created_at
     actions
   end
@@ -26,12 +32,24 @@ ActiveAdmin.register Order do
       row :user
       row :status
       row :province_name
-      row :subtotal { |o| number_to_currency(o.subtotal) }
-      row :gst_rate { |o| "#{(o.gst_rate.to_f * 100).round(3)}%" }
-      row :pst_rate { |o| "#{(o.pst_rate.to_f * 100).round(3)}%" }
-      row :hst_rate { |o| "#{(o.hst_rate.to_f * 100).round(3)}%" }
-      row :tax_amount { |o| number_to_currency(o.tax_amount) }
-      row :total { |o| number_to_currency(o.total) }
+      row :subtotal do |order|
+        number_to_currency(order.subtotal)
+      end
+      row :gst_rate do |order|
+        "#{(order.gst_rate.to_f * 100).round(3)}%"
+      end
+      row :pst_rate do |order|
+        "#{(order.pst_rate.to_f * 100).round(3)}%"
+      end
+      row :hst_rate do |order|
+        "#{(order.hst_rate.to_f * 100).round(3)}%"
+      end
+      row :tax_amount do |order|
+        number_to_currency(order.tax_amount)
+      end
+      row :total do |order|
+        number_to_currency(order.total)
+      end
       row :stripe_payment_id
       row :created_at
     end

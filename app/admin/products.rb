@@ -15,11 +15,13 @@ ActiveAdmin.register Product do
     column :name
     column :category
     column :condition
-    column :price { |p| number_to_currency(p.price) }
+    column :price do |product|
+      number_to_currency(product.price)
+    end
     column :on_sale
     column :stock_quantity
-    column :image do |p|
-      image_tag url_for(p.image), height: 50 if p.image.attached?
+    column :image do |product|
+      image_tag url_for(product.image), height: 50 if product.image.attached?
     end
     actions
   end
@@ -30,12 +32,16 @@ ActiveAdmin.register Product do
       row :category
       row :description
       row :condition
-      row :price { |p| number_to_currency(p.price) }
+      row :price do |product|
+        number_to_currency(product.price)
+      end
       row :on_sale
-      row :sale_price { |p| number_to_currency(p.sale_price) if p.sale_price }
+      row :sale_price do |product|
+        number_to_currency(product.sale_price) if product.sale_price
+      end
       row :stock_quantity
-      row :image do |p|
-        image_tag url_for(p.image), height: 200 if p.image.attached?
+      row :image do |product|
+        image_tag url_for(product.image), height: 200 if product.image.attached?
       end
       row :created_at
       row :updated_at
