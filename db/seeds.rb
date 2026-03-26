@@ -112,3 +112,5 @@ puts "   Provinces: #{Province.count}"
 puts "   Categories: #{Category.count}"
 puts "   Products:   #{Product.count}"
 puts "   Pages:      #{Page.count}"
+
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
