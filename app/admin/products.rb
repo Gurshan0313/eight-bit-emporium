@@ -53,12 +53,11 @@ ActiveAdmin.register Product do
       f.input :name
       f.input :description
       f.input :condition, as: :select, collection: Product::VALID_CONDITIONS
-      f.input :price
+      f.input :price, as: :number, input_html: { min: 0.01, step: 0.01 }   # ← add this
       f.input :on_sale
-      f.input :sale_price
-      f.input :stock_quantity
+      f.input :sale_price, as: :number, input_html: { min: 0.01, step: 0.01 }  # also fix sale_price
+      f.input :stock_quantity, input_html: { min: 0 }
       f.input :category
-      # Feature 1.3 — Image upload
       f.input :image, as: :file
     end
     f.actions
