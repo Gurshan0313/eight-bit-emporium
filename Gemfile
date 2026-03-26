@@ -1,5 +1,23 @@
 source "https://rubygems.org"
 
+gem "devise"
+gem "activeadmin"
+
+# Payments
+gem "stripe"
+
+# Images
+gem "image_processing", "~> 1.2"
+
+# Pagination
+gem "kaminari"
+
+# Seed data
+gem "faker"
+
+# HTTP requests
+gem "httparty"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.2.3"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
