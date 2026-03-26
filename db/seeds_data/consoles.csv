@@ -1,0 +1,16 @@
+name,manufacturer,year_released,description,condition,price,stock,category
+Nintendo Entertainment System,Nintendo,1985,"The console that saved the video game industry after the 1983 crash. Changed gaming forever.",Good,79.99,3,Retro Consoles
+Super Nintendo Entertainment System,Nintendo,1990,"16-bit powerhouse with Mode 7 graphics. Home to some of the greatest games ever made.",Excellent,89.99,2,Retro Consoles
+Sega Genesis Model 1,Sega,1989,"Blast Processing! The Genesis brought arcade-quality games home. Rivals the SNES.",Good,69.99,3,Retro Consoles
+Sega Genesis Model 2,Sega,1993,"Smaller and lighter revision of the Genesis. Same great library at a lower price.",Acceptable,49.99,4,Retro Consoles
+Nintendo 64,Nintendo,1996,"The N64 introduced 3D gaming to a generation. Four controller ports for multiplayer.",Excellent,74.99,2,Retro Consoles
+Original PlayStation,Sony,1994,"Sony's entry into gaming changed everything. CD-based games and 3D graphics.",Good,59.99,3,Retro Consoles
+Sega Saturn,Sega,1994,"The Saturn had incredible 2D sprite performance. Underrated but beloved by collectors.",Acceptable,89.99,2,Retro Consoles
+Atari 2600,Atari,1977,"The granddaddy of home gaming. Where it all began for millions of gamers.",Acceptable,44.99,3,Retro Consoles
+Game Boy Original,Nintendo,1989,"The grey brick that conquered portable gaming. Nearly indestructible.",Good,34.99,4,Retro Consoles
+Game Boy Color,Nintendo,1998,"Added color to the Game Boy lineup while keeping full backward compatibility.",Excellent,49.99,3,Retro Consoles
+Game Boy Advance,Nintendo,2001,"The GBA packed SNES-level power into a portable. Incredible library of games.",Excellent,54.99,3,Retro Consoles
+Sega Game Gear,Sega,1990,"Sega's answer to the Game Boy with a full-color backlit screen. Battery hungry!",Acceptable,39.99,2,Retro Consoles
+Neo Geo Pocket Color,SNK,1999,"SNK's little gem with a satisfying clicky joystick. Rare and collectable.",Good,89.99,1,Retro Consoles
+TurboGrafx-16,NEC,1987,"The forgotten console with a cult following. CD add-on made it a powerhouse.",Acceptable,99.99,1,Retro Consoles
+Sega Master System,Sega,1985,"The NES's main competitor outside North America. Great library of its own.",Good,54.99,2,Retro Consoles
