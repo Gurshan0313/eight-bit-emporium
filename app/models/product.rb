@@ -18,6 +18,14 @@ class Product < ApplicationRecord
   scope :new_arrivals, -> { where("created_at >= ?", 3.days.ago) }
   scope :recently_updated, -> { where("updated_at >= ? AND created_at < ?", 3.days.ago, 3.days.ago) }
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["category_id", "condition", "created_at", "description", "id", "name", "on_sale", "price", "sale_price", "stock_quantity", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["category", "order_items", "orders"]
+  end
+
   def current_price
     on_sale? && sale_price.present? ? sale_price : price
   end
