@@ -113,4 +113,8 @@ puts "   Categories: #{Category.count}"
 puts "   Products:   #{Product.count}"
 puts "   Pages:      #{Page.count}"
 
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+# Create admin user only if it doesn't already exist (idempotent)
+AdminUser.find_or_create_by!(email: 'admin@example.com') do |admin|
+  admin.password = 'password'
+  admin.password_confirmation = 'password'
+end

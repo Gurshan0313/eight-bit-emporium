@@ -1,0 +1,42 @@
+<div class="bg-dark text-white py-4 border-bottom border-danger border-3">
+  <div class="container">
+    <h1 class="fw-bold">🕹️ Retro Gaming Treasures</h1>
+    <p class="text-muted mb-0">Authentic vintage games & consoles from Winnipeg's Exchange District</p>
+  </div>
+</div>
+
+<div class="container my-4">
+
+  <!-- Filter Pills — Feature 2.4 -->
+  <div class="d-flex flex-wrap gap-2 mb-4">
+    <%= link_to "All", products_path(query: @search_query, category_id: params[:category_id]),
+        class: "btn btn-sm #{@active_filter.nil? ? 'btn-danger' : 'btn-outline-secondary'}" %>
+    <%= link_to "🔥 On Sale", products_path(filter: "on_sale"),
+        class: "btn btn-sm #{@active_filter == 'on_sale' ? 'btn-danger' : 'btn-outline-secondary'}" %>
+    <%= link_to "✨ New Arrivals", products_path(filter: "new"),
+        class: "btn btn-sm #{@active_filter == 'new' ? 'btn-danger' : 'btn-outline-secondary'}" %>
+    <%= link_to "🔄 Recently Updated", products_path(filter: "recently_updated"),
+        class: "btn btn-sm #{@active_filter == 'recently_updated' ? 'btn-danger' : 'btn-outline-secondary'}" %>
+  </div>
+
+  <% if @products.empty? %>
+    <div class="text-center py-5">
+      <p class="display-1">🕹️</p>
+      <h3>No products found</h3>
+      <%= link_to "Browse All", products_path, class: "btn btn-danger" %>
+    </div>
+  <% else %>
+    <!-- Feature 4.1.6 Bootstrap Grid -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
+      <% @products.each do |product| %>
+        <!-- Feature 4.1.4 VIEW PARTIAL -->
+        <%= render "products/product_card", product: product %>
+      <% end %>
+    </div>
+
+    <!-- Feature 2.5 Pagination -->
+    <div class="d-flex justify-content-center mt-5">
+      <%= paginate @products %>
+    </div>
+  <% end %>
+</div>

@@ -1,23 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= content_for(:title) || "Eight Bit Emporium" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8-Bit Emporium — Retro Gaming Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
   </head>
-
   <body>
-    <%= yield %>
+
+    <!-- Feature 2.2 — Menu on all pages -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-danger border-3">
+      <div class="container">
+        <%= link_to "🕹️ 8-Bit Emporium", root_path, class: "navbar-brand fw-bold text-danger" %>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <%= link_to "Products", products_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Categories</a>
+              <ul class="dropdown-menu">
+                <% Category.order(:name).each do |cat| %>
+                  <li><%= link_to cat.name, category_path(cat), class: "dropdown-item" %></li>
+                <% end %>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <%= link_to "About", page_path("about"), class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Contact", page_path("contact"), class: "nav-link" %>
+            </li>
+          </ul>
+
+          <!-- Search bar — Feature 2.6 -->
+          <%= form_tag products_path, method: :get, class: "d-flex me-3" do %>
+            <%= text_field_tag :query, params[:query],
+                class: "form-control form-control-sm me-1",
+                placeholder: "Search games...",
+                style: "width: 160px" %>
+            <%= select_tag :category_id,
+                options_from_collection_for_select(Category.order(:name), :id, :name, params[:category_id]),
+                include_blank: "All Categories",
+                class: "form-select form-select-sm me-1",
+                style: "width: 140px" %>
+            <button class="btn btn-sm btn-danger" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          <% end %>
+
+          <!-- Cart + Auth links -->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <%= link_to cart_path, class: "nav-link" do %>
+                <i class="bi bi-cart3"></i>
+                <% cart = session[:cart] || {} %>
+                <% if cart.any? %>
+                  <span class="badge bg-danger"><%= cart.values.sum %></span>
+                <% end %>
+              <% end %>
+            </li>
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to current_user.name, profile_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "nav-link" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Flash messages — Feature 4.2.3 -->
+    <% flash.each do |type, message| %>
+      <% bootstrap_class = type == "notice" ? "success" : "danger" %>
+      <div class="alert alert-<%= bootstrap_class %> alert-dismissible fade show m-0 rounded-0">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <% end %>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <footer class="bg-dark text-light py-4 mt-5 border-top border-danger border-3">
+      <div class="container text-center">
+        <p class="mb-1">🕹️ <strong>8-Bit Emporium</strong> — Winnipeg's Premier Retro Gaming Store</p>
+        <p class="small text-muted mb-0">Exchange District, Winnipeg, MB | Est. 2016</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
