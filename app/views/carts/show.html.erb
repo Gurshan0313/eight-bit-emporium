@@ -1,0 +1,16 @@
+<div class="container my-4">
+  <h1 class="fw-bold mb-4">🛒 Your Cart</h1>
+
+  <% cart = session[:cart] || {} %>
+
+  <% if cart.empty? %>
+    <div class="text-center py-5">
+      <p class="display-1">🛒</p>
+      <h3>Your cart is empty</h3>
+      <%= link_to "Browse Products", products_path, class: "btn btn-danger mt-2" %>
+    </div>
+  <% else %>
+    <!-- Feature 4.1.4 — Partial for cart items -->
+    <%= render "carts/cart_table" %>
+  <% end %>
+</div>
