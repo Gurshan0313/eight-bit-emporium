@@ -1,0 +1,57 @@
+// Variables
+$primary-red: #e63946;
+$dark-bg: #1a1a2e;
+$card-hover-shadow: 0 8px 25px rgba(0,0,0,0.15);
+
+// Nesting example
+.product-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $card-hover-shadow;
+  }
+
+  .card-img-top {
+    height: 180px;
+    object-fit: cover;
+  }
+}
+
+// Condition badge colors
+.condition-badge {
+  &.Mint       { background-color: #198754; }
+  &.Excellent  { background-color: #0d6efd; }
+  &.Good       { background-color: #fd7e14; }
+  &.Acceptable { background-color: #6c757d; }
+}
+
+// Navbar customization — using inheritance
+%nav-link-base {
+  color: #ccc !important;
+  transition: color 0.2s;
+
+  &:hover { color: $primary-red !important; }
+}
+
+.navbar-nav .nav-link {
+  @extend %nav-link-base;
+}
+
+// Pagination active color
+.page-item.active .page-link {
+  background-color: $primary-red;
+  border-color: $primary-red;
+}
+
+.page-link {
+  color: $primary-red;
+}
+
+// Width operator example
+.sidebar {
+  width: 100% / 3;
+}
