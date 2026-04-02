@@ -1,0 +1,16 @@
+<div class="container my-4">
+  <h1 class="fw-bold mb-4">📦 My Orders</h1>
+
+  <% if @orders.empty? %>
+    <div class="text-center py-5">
+      <p class="display-1">📦</p>
+      <h3>No orders yet</h3>
+      <%= link_to "Start Shopping", products_path, class: "btn btn-danger" %>
+    </div>
+  <% else %>
+    <% @orders.each do |order| %>
+      <!-- Feature 4.1.4 — Partial -->
+      <%= render "orders/order_row", order: order %>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,24 @@
+<div class="card mb-3 shadow-sm">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="mb-1">Order #<%= order.id %></h5>
+        <p class="text-muted small mb-0"><%= order.created_at.strftime("%B %d, %Y") %></p>
+      </div>
+      <div class="text-end">
+        <span class="badge bg-<%= order.status == 'paid' || order.status == 'shipped' ? 'success' : 'warning text-dark' %> mb-1">
+          <%= order.status.capitalize %>
+        </span>
+        <p class="fw-bold text-success mb-0">$<%= sprintf("%.2f", order.total) %></p>
+      </div>
+    </div>
+    <hr class="my-2">
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="small text-muted mb-0">
+        <%= order.order_items.count %> item(s) •
+        <%= order.province_name %> taxes applied
+      </p>
+      <%= link_to "View Details →", order_path(order), class: "btn btn-sm btn-outline-secondary" %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="container my-4">
+  <%= link_to "← My Orders", orders_path, class: "btn btn-outline-secondary mb-3" %>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Order #<%= @order.id %></h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Status:</strong>
+            <span class="badge bg-success"><%= @order.status.capitalize %></span>
+          </p>
+          <p><strong>Date:</strong> <%= @order.created_at.strftime("%B %d, %Y") %></p>
+          <p><strong>Province:</strong> <%= @order.province_name %></p>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <span>Subtotal</span><span>$<%= sprintf("%.2f", @order.subtotal) %></span>
+          </div>
+          <% if @order.gst_rate.to_f > 0 %>
+            <div class="d-flex justify-content-between text-muted">
+              <span>GST (<%= (@order.gst_rate * 100).round(1) %>%)</span>
+              <span>$<%= sprintf("%.2f", @order.subtotal * @order.gst_rate) %></span>
+            </div>
+          <% end %>
+          <% if @order.pst_rate.to_f > 0 %>
+            <div class="d-flex justify-content-between text-muted">
+              <span>PST (<%= (@order.pst_rate * 100).round(3) %>%)</span>
+              <span>$<%= sprintf("%.2f", @order.subtotal * @order.pst_rate) %></span>
+            </div>
+          <% end %>
+          <% if @order.hst_rate.to_f > 0 %>
+            <div class="d-flex justify-content-between text-muted">
+              <span>HST (<%= (@order.hst_rate * 100).round(1) %>%)</span>
+              <span>$<%= sprintf("%.2f", @order.subtotal * @order.hst_rate) %></span>
+            </div>
+          <% end %>
+          <hr>
+          <div class="d-flex justify-content-between fw-bold fs-5">
+            <span>Total</span><span class="text-success">$<%= sprintf("%.2f", @order.total) %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Items Ordered</h5>
+        </div>
+        <table class="table mb-0">
+          <thead class="table-light">
+            <tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr>
+          </thead>
+          <tbody>
+            <% @order.order_items.each do |item| %>
+              <tr>
+                <td><%= link_to item.product.name, product_path(item.product), class: "text-decoration-none" %></td>
+                <td><%= item.quantity %></td>
+                <td>$<%= sprintf("%.2f", item.unit_price) %></td>
+                <td class="fw-bold">$<%= sprintf("%.2f", item.subtotal) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
