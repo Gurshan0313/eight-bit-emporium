@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   devise_for :admin_users
   ActiveAdmin.routes(self)
+  post "/stripe/webhook", to: "stripe_webhooks#create"
 
   root 'products#index'
 

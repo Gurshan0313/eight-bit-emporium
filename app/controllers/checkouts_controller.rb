@@ -21,8 +21,18 @@ class CheckoutsController < ApplicationController
     tax_breakdown = calculate_taxes(subtotal, province)
     total = subtotal + tax_breakdown[:total_tax]
 
-    # Feature 3.3.2 — Snapshot prices and tax rates at time of purchase
-    order = current_user.orders.build(
+    # Save address
+    if params[:save_address] == "1"
+      current_user.update(
+        address: params[:address],
+        city: params[:city],
+        postal_code: params[:postal_code],
+        province: province
+      )
+    end
+
+    # Create pending order
+    order = current_user.orders.create!(
       status: "pending",
       subtotal: subtotal,
       tax_amount: tax_breakdown[:total_tax],
@@ -33,30 +43,29 @@ class CheckoutsController < ApplicationController
       hst_rate: province.hst
     )
 
-    # Save address if provided
-    if params[:save_address] == "1"
-      current_user.update(
-        address: params[:address],
-        city: params[:city],
-        postal_code: params[:postal_code],
-        province: province
-      )
-    end
-
-    order.save!
-
     cart_items.each do |item|
       order.order_items.create!(
         product: item[:product],
         quantity: item[:quantity],
-        unit_price: item[:product].current_price  # locked at purchase time
+        unit_price: item[:product].current_price
       )
     end
 
-    # Clear cart
+    # Create Stripe Payment Intent
+    payment_intent = Stripe::PaymentIntent.create({
+      amount: (total * 100).to_i,  # Stripe uses cents
+      currency: "cad",
+      metadata: { order_id: order.id }
+    })
+
+    session[:pending_order_id] = order.id
     session[:cart] = {}
 
-    redirect_to order_path(order), notice: "Order placed successfully! Order ##{order.id}"
+    render :payment, locals: {
+      order: order,
+      client_secret: payment_intent.client_secret,
+      publishable_key: Rails.application.credentials.stripe[:publishable_key]
+    }
   end
 
   private
