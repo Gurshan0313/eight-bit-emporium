@@ -1,0 +1,16 @@
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-dark text-white">
+    <h5 class="mb-0">Order Summary (<%= cart_items.count %> items)</h5>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-sm mb-0">
+      <% cart_items.each do |item| %>
+        <tr>
+          <td><%= item[:product].name %></td>
+          <td class="text-muted">x<%= item[:quantity] %></td>
+          <td class="text-end fw-bold">$<%= sprintf("%.2f", item[:subtotal]) %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

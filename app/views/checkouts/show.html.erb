@@ -1,0 +1,80 @@
+<div class="container my-4" style="max-width: 860px;">
+  <h1 class="fw-bold mb-4">Checkout</h1>
+
+  <!-- Feature 4.1.4 — Partial -->
+  <%= render "checkouts/order_summary", cart_items: @cart_items,
+      subtotal: @subtotal, tax_breakdown: @tax_breakdown, total: @total %>
+
+  <%= form_tag checkout_path, method: :post, class: "mt-4" do %>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Shipping Details</h5>
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Street Address</label>
+            <%= text_field_tag :address, @user.address, class: "form-control", required: true %>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">City</label>
+            <%= text_field_tag :city, @user.city, class: "form-control", required: true %>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Province</label>
+            <%= select_tag :province_id,
+                options_from_collection_for_select(@provinces, :id, :name, @province&.id),
+                class: "form-select",
+                id: "province_select",
+                required: true,
+                data: { action: "change->checkout#updateTax" } %>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Postal Code</label>
+            <%= text_field_tag :postal_code, @user.postal_code,
+                class: "form-control", placeholder: "A1A 1A1" %>
+          </div>
+        </div>
+
+        <div class="form-check mt-3">
+          <%= check_box_tag :save_address, "1", true, class: "form-check-input" %>
+          <label class="form-check-label">Save address to my account</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tax Summary -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="fw-bold">Order Total</h5>
+        <div class="d-flex justify-content-between"><span>Subtotal</span><span>$<%= sprintf("%.2f", @subtotal) %></span></div>
+        <% if @tax_breakdown[:gst] > 0 %>
+          <div class="d-flex justify-content-between text-muted">
+            <span>GST (<%= (@province.gst * 100).round(1) %>%)</span>
+            <span>$<%= sprintf("%.2f", @tax_breakdown[:gst]) %></span>
+          </div>
+        <% end %>
+        <% if @tax_breakdown[:pst] > 0 %>
+          <div class="d-flex justify-content-between text-muted">
+            <span>PST (<%= (@province.pst * 100).round(3) %>%)</span>
+            <span>$<%= sprintf("%.2f", @tax_breakdown[:pst]) %></span>
+          </div>
+        <% end %>
+        <% if @tax_breakdown[:hst] > 0 %>
+          <div class="d-flex justify-content-between text-muted">
+            <span>HST (<%= (@province.hst * 100).round(1) %>%)</span>
+            <span>$<%= sprintf("%.2f", @tax_breakdown[:hst]) %></span>
+          </div>
+        <% end %>
+        <hr>
+        <div class="d-flex justify-content-between fw-bold fs-5">
+          <span>Total</span>
+          <span class="text-success">$<%= sprintf("%.2f", @total) %></span>
+        </div>
+      </div>
+    </div>
+
+    <%= submit_tag "Place Order →", class: "btn btn-danger btn-lg w-100" %>
+  <% end %>
+</div>
