@@ -30,3 +30,8 @@ class Product < ApplicationRecord
     on_sale? && sale_price.present? ? sale_price : price
   end
 end
+
+
+
+
+
