@@ -41,15 +41,21 @@ $card-hover-shadow: 0 8px 25px rgba(0,0,0,0.15);
   @extend %nav-link-base;
 }
 
+
+
 // Pagination active color
 .page-item.active .page-link {
   background-color: $primary-red;
   border-color: $primary-red;
 }
 
+
+
 .page-link {
   color: $primary-red;
 }
+
+
 
 // Width operator example
 .sidebar {
